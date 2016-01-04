@@ -1,7 +1,7 @@
 package main
 
 import (
-	"coincheckorm"
+	"coincheck/orm"
 	"database/sql"
 	"os"
 
@@ -17,7 +17,7 @@ func main() {
 	}
 
 	dbmap := gorp.DbMap{Db: db, Dialect: gorp.SqliteDialect{}}
-	ticker := dbmap.AddTableWithName(coincheckorm.Ticker{}, "ticker").SetKeys(true, "Id")
+	ticker := dbmap.AddTableWithName(orm.Ticker{}, "ticker").SetKeys(true, "Id")
 	ticker.ColMap("ID").Rename("id")
 	ticker.ColMap("Last").Rename("last")
 	ticker.ColMap("Bid").Rename("bid")
@@ -26,7 +26,7 @@ func main() {
 	ticker.ColMap("Volume").Rename("volume")
 	ticker.ColMap("Timestamp").Rename("timestamp")
 
-	trade := dbmap.AddTableWithName(coincheckorm.Trade{}, "trade").SetKeys(true, "Id")
+	trade := dbmap.AddTableWithName(orm.Trade{}, "trade").SetKeys(true, "Id")
 	trade.ColMap("ID").Rename("id")
 	trade.ColMap("TradeID").Rename("trade_id")
 	trade.ColMap("Amount").Rename("amount")
