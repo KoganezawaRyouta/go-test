@@ -28,6 +28,7 @@ type Ctrade struct {
 }
 
 // CoinCheckTicker get ticker from coincheck.jp
+// https://coincheck.jp/documents/exchange/api?locale=ja#ticker
 func CoinCheckTicker() Cticker {
 	url := "https://coincheck.jp/api/ticker"
 	byteArray := get(url)
@@ -37,6 +38,7 @@ func CoinCheckTicker() Cticker {
 }
 
 // CoinCheckTrades get trades from coincheck.jp
+// https://coincheck.jp/documents/exchange/api?locale=ja#trades
 func CoinCheckTrades() []Ctrade {
 	url := "https://coincheck.jp/api/trades"
 	byteArray := get(url)

@@ -3,7 +3,6 @@ package importer
 import (
 	"coincheck/adaptor"
 	"coincheck/orm"
-	"database/sql"
 	"log"
 	"time"
 
@@ -15,11 +14,6 @@ type CoinCheckResult struct {
 	Cticker adaptor.Cticker
 	Ctrades []adaptor.Ctrade
 }
-
-var (
-	db, _ = sql.Open("sqlite3", "/coincheckdb/coincheck.db")
-	dbmap = &gorp.DbMap{Db: db, Dialect: gorp.SqliteDialect{}}
-)
 
 // CoinCheck it obtains the information of the trades and ticker from coincheck.jp,
 // and register to DB
@@ -45,19 +39,17 @@ func CoinCheck() (chResult CoinCheckResult) {
 }
 
 // InsertTicker db insert to orm.Ticker
-func InsertTicker(cticker adaptor.Cticker) {
-	defer dbmap.Db.Close()
-	ticker := newTicker(cticker)
-	err := dbmap.Insert(&ticker)
+func InsertTicker(dbmap *gorp.DbMap, cticker adaptor.Cticker) {
+	tickerC := newTicker(cticker)
+	err := dbmap.Insert(&tickerC)
 	checkErr(err, "Insert failed ticker")
 }
 
 // InsertTrade db insert to orm.Trade
-func InsertTrade(ctrades []adaptor.Ctrade) {
-	defer dbmap.Db.Close()
+func InsertTrade(dbmap *gorp.DbMap, ctrades []adaptor.Ctrade) {
 	for _, ctrade := range ctrades {
-		trades := newTrade(ctrade)
-		err := dbmap.Insert(&trades)
+		trade := newTrade(ctrade)
+		err := dbmap.Insert(&trade)
 		checkErr(err, "Insert failed trades")
 	}
 }
