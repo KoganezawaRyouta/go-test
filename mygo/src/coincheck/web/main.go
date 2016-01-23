@@ -37,7 +37,7 @@ func login(w http.ResponseWriter, r *http.Request) {
 func main() {
 	http.HandleFunc("/", sayhelloName) //アクセスのルーティングを設定します。
 	http.HandleFunc("/login", login)
-	err := http.ListenAndServe(":9090", nil) //監視するポートを設定します。
+	err := http.ListenAndServe(":8000", nil) //監視するポートを設定します。
 	if err != nil {
 		log.Fatal("ListenAndServe: ", err)
 	}
